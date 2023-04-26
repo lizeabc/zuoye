@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.2/echarts.min.js'></script></head>
+    <script src="../jquery-3.6.1.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/layui@2.6.8/dist/css/layui.css">
+    <body>
+        <button class="layui-btn layui-btn-radius" id="lz">李泽</button>
+        <button class="layui-btn layui-btn-radius" id="lyy">李艳阳</button>
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <div id="main1" style="width: 600px;height:400px;"></div>
+
+    <script>
+let data=[{
+    name:'李泽的成绩',
+    data:['99','100', '70', '92'],
+    bishi:['28', '0', '50', '0']
+},
+{
+    name:'李艳阳的成绩',
+    data:['85','65', '65', '75'],
+    bishi:['66','0', '60', '0']
+}
+]
+$(function(){
+    fun('李泽的成绩',['99','100', '70', '92'],['28', '0', '50', '0'])
+    fun2(['99','100', '70', '92'],['28', '0', '50', '0'])
+
+})
+$('#lz').click(function(){
+    fzfun(0)
+})
+$('#lyy').click(function(){
+    fzfun(1)
+})
+function fzfun(a){
+    $(data[a]).each((index,item)=>{
+        console.log(item);
+        fun(item.name,item.data,item.bishi)
+        fun2(item.data,item.bishi)
+    })
+}
+function fun(name,js,bs){
+    var chartDom = document.getElementById('main');
+var myChart = echarts.init(chartDom);
+var option;
+
+option = {
+  title: {
+    text:name
+  },
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  legend: {},
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: {
+    type: 'value',
+    boundaryGap: [0, 0.1]
+  },
+  yAxis: {
+    type: 'category',
+    data: ['一月', '二月', '三月', '四月', ]
+  },
+  series: [
+    {
+      name: '机试',
+      type: 'bar',
+      data: js
+    },
+    {
+      name: '笔试',
+      type: 'bar',
+      data:bs
+    }
+  ]
+};
+option && myChart.setOption(option);
+
+}
+
+function fun2(js,bs){
+    var chartDom = document.getElementById('main1');
+var myChart = echarts.init(chartDom);
+var option;
+
+option = {
+  xAxis: {
+    type: 'category',
+    data: ['一月', '二月', '三月', '四月', ]
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      data:js,
+      type: 'line',
+      smooth: true
+    },
+    {
+      data:bs,
+      type: 'line',
+      smooth: true
+    },
+  ]
+};
+
+option && myChart.setOption(option);
+
+}
+</script>
+</body>
+</html>
