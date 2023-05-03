@@ -8,7 +8,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://unpkg.com/layui@2.6.8/dist/css/layui.css">
     <script src="./jquery-3.6.1.js"></script>
-    <script src="./echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.2/echarts.min.js"></script>
 </head>
 <style>
     #tab {
@@ -440,7 +440,7 @@
     //渲染
     function applyFun(arr = ArrarDate) {
         let html = ''
-        data=arr
+        data = arr
         $(data).each((index, item) => {
             html += `
         <tr>
