@@ -12,7 +12,7 @@
 </head>
 <style>
     #tab {
-        width: 1410px;
+        width: 1420px;
         margin: auto;
         margin-top: 30px;
     }
@@ -272,11 +272,6 @@
     </div>
 
 </body>
-<!-- <form class="layui-form" action="">
-    <input type="checkbox" name="zzz" lay-skin="switch" lay-text="开启|关闭">
-    </form> -->
-
-
 <script>
     let ArrarDate = [
         {
@@ -305,9 +300,19 @@
         }
 
     ]
+    let data = dataFun()
+    applyFun()
     $(function () {
-        applyFun()
+
     })
+    function dataFun() {
+        let data = localStorage.getItem('data', ArrarDate)
+        if (data) {
+            return JSON.parse(data)
+        } else {
+            return []
+        }
+    }
     $('#addBtn').click(function () {
         $('#da').fadeIn()
         $('#span').html('添加学生')
@@ -376,7 +381,7 @@
     let i = 0
     $('#add').click(function () {
         if (add.innerHTML == '保存') {
-            ArrarDate.push({
+            data.push({
                 name: $('#na').val(),
                 data: $('#a').val(),
                 bishi: $('#b').val(),
@@ -389,7 +394,7 @@
                 zhouq: $('#d').val()
             })
         } else {
-            ArrarDate[i] = ({
+            data[i] = ({
                 name: $('#na').val(),
                 data: $('#a').val(),
                 bishi: $('#b').val(),
@@ -403,6 +408,7 @@
             })
         }
         $('#da').fadeOut()
+        localStorage.setItem('data', JSON.stringify(data))
         applyFun()
     })
     //修改（回迁）
@@ -425,16 +431,17 @@
     //删除
     function removeFun(index) {
         if (confirm('你确认删除吗？')) {
-            ArrarDate.splice(index, 1)
+            data.splice(index, 1)
         }
+        localStorage.setItem('data', JSON.stringify(data))
         applyFun()
     }
 
     //渲染
-    let aa
     function applyFun(arr = ArrarDate) {
         let html = ''
-        $(arr).each((index, item) => {
+        data=arr
+        $(data).each((index, item) => {
             html += `
         <tr>
             <td><input type='checkbox' class='xuan'></td>
@@ -452,6 +459,7 @@
       </tr>
         `
         })
+        localStorage.setItem('data', JSON.stringify(data))
         $('#tbo').html(html)
         let ta = $('#tbo td')
         for (let i = 0; i < ta.length; i++) {
@@ -462,7 +470,6 @@
                 $(ta).eq(i).addClass('zis');
             }
         }
-
 
     }
 
