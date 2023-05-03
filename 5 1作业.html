@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/layui@2.6.8/dist/css/layui.css">
+    <script src="./jquery-3.6.1.js"></script>
+    <script src="./echarts.min.js"></script>
+</head>
+<style>
+    #tab {
+        width: 1410px;
+        margin: auto;
+        margin-top: 30px;
+    }
+
+    #addBtn {
+        position: relative;
+        left: 242px;
+        top: 24px;
+    }
+
+    #box {
+        width: 400px;
+        height: 500px;
+        background-color: aqua;
+    }
+
+    #box input {
+        width: 300px;
+    }
+
+    #da {
+
+        width: 400px;
+        height: 500px;
+        position: absolute;
+        left: 504px;
+        top: 80px;
+        background-color: white;
+        display: none;
+    }
+
+    #zen {
+        height: 56px;
+        border-bottom: 1px solid rgb(255, 255, 255);
+        font-size: 18px;
+        background-color: rgb(248, 248, 248);
+    }
+
+    #span {
+        position: relative;
+        top: 20px;
+    }
+
+    #c {
+        position: relative;
+        left: 377px;
+        top: -34px;
+    }
+
+    #sele {
+        width: 290px;
+        height: 20px;
+        margin-top: 8px;
+        border: 1px solid #eeeeee;
+        text-align: center;
+    }
+
+    .a {
+        background-color: red;
+    }
+
+    #che1 {
+        width: 400px;
+        display: inline-block;
+        position: absolute;
+        left: 335px;
+        top: 25px;
+    }
+
+    #topSoiu {
+        position: absolute;
+        left: 740px;
+        top: 25px;
+    }
+
+    #daboix {
+        width: 100%;
+        height: 2000px;
+        background-color: #eeeeee91;
+        z-index: 1;
+        position: absolute;
+        top: 0px;
+        display: none;
+    }
+
+    #dad {
+        width: 600px;
+        height: 600px;
+        background-color: white;
+        margin: auto;
+        position: relative;
+        top: 100px;
+    }
+
+    #cu {
+        position: relative;
+        left: 957px;
+        top: 163px;
+        z-index: 3;
+    }
+
+    .zit {
+        color: red;
+    }
+
+    .zis {
+        color: blueviolet;
+    }
+</style>
+
+<body>
+    <button class="layui-btn layui-btn-warm" id="addBtn">添加学生</button>
+    <div class="layui-form-item" id="che1">
+        <label class="layui-form-label">机式成绩
+        </label>
+        <div class="layui-input-block">
+            <input type="text" name="title" required lay-verify="required" placeholder="" autocomplete="off"
+                class="layui-input" id="sou">
+        </div>
+    </div>
+    <button class="layui-btn" id="topSoiu">搜索</button>
+    <table class="layui-table" id="tab">
+        <colgroup>
+            <col width="150">
+            <col width="200">
+            <col>
+        </colgroup>
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="btnxuan"></th>
+                <th>姓名</th>
+                <th>机式成绩</th>
+                <th>笔试成绩</th>
+                <th>机式成绩</th>
+                <th onclick="sortFun()">平均分</th>
+                <th>机式成绩</th>
+                <th>笔试成绩</th>
+                <th>机式成绩</th>
+                <th onclick="sortFun()">平均分</th>
+                <th>周期品均分</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="tbo">
+
+        </tbody>
+    </table>
+    <div id="daboix">
+        <svg t="1683080814068" id="cu" class="icon" viewBox="0 0 1024 1024" version="1.1"
+            xmlns="http://www.w3.org/2000/svg" p-id="2623" width="64" height="64">
+            <path
+                d="M886.784 746.496q29.696 30.72 43.52 56.32t-4.608 58.368q-4.096 6.144-11.264 14.848t-14.848 16.896-15.36 14.848-12.8 9.728q-25.6 15.36-60.416 8.192t-62.464-34.816l-43.008-43.008-57.344-57.344-67.584-67.584-73.728-73.728-131.072 131.072q-60.416 60.416-98.304 99.328-38.912 38.912-77.312 48.128t-68.096-17.408l-7.168-7.168-11.264-11.264-11.264-11.264q-6.144-6.144-7.168-8.192-11.264-14.336-13.312-29.184t2.56-29.184 13.824-27.648 20.48-24.576q9.216-8.192 32.768-30.72l55.296-57.344q33.792-32.768 75.264-73.728t86.528-86.016q-49.152-49.152-93.696-93.184t-79.872-78.848-57.856-56.832-27.648-27.136q-26.624-26.624-27.136-52.736t17.92-52.736q8.192-10.24 23.552-24.064t21.504-17.92q30.72-20.48 55.296-17.92t49.152 28.16l31.744 31.744q23.552 23.552 58.368 57.344t78.336 76.288 90.624 88.576q38.912-38.912 76.288-75.776t69.632-69.12 58.368-57.856 43.52-43.008q24.576-23.552 53.248-31.232t55.296 12.8q1.024 1.024 6.656 5.12t11.264 9.216 10.752 9.728 7.168 5.632q27.648 26.624 27.136 57.856t-27.136 57.856q-18.432 18.432-45.568 46.08t-60.416 60.416-70.144 69.632l-77.824 77.824q37.888 36.864 74.24 72.192t67.584 66.048 56.32 56.32 41.472 41.984z"
+                p-id="2624"></path>
+        </svg>
+        <div id="dad"></div>
+    </div>
+    <button class="layui-btn layui-btn-warm" id="shanBtn">批量删除</button>
+    <div id="da">
+        <p id="zen"><span id="span">添加学生</span></p>
+        <svg t="1681472054699" id="c" class="icon" viewBox="0 0 1024 1024" version="1.1"
+            xmlns="http://www.w3.org/2000/svg" p-id="2820" width="16" height="16">
+            <path
+                d="M547.2 512l416-416c9.6-9.6 9.6-25.6 0-35.2s-25.6-9.6-35.2 0l-416 416-416-416c-9.6-9.6-25.6-9.6-35.2 0s-9.6 25.6 0 35.2l416 416-416 416c-9.6 9.6-9.6 25.6 0 35.2s25.6 9.6 35.2 0l416-416 416 416c9.6 9.6 25.6 9.6 35.2 0s9.6-25.6 0-35.2L547.2 512z"
+                p-id="2821"></path>
+        </svg>
+        <div class="layui-form-item" id="che">
+            <label class="layui-form-label">学生姓名
+            </label>
+            <div class="layui-input-block">
+                <input type="text" name="title" required lay-verify="required" placeholder="" autocomplete="off"
+                    class="layui-input" id="na">
+            </div>
+        </div>
+        <div class="layui-form-item" id="che">
+            <label class="layui-form-label">机式成绩
+            </label>
+            <div class="layui-input-block">
+                <input type="text" name="title" required lay-verify="required" placeholder="" autocomplete="off"
+                    class="layui-input" id="a">
+            </div>
+        </div>
+
+        <div class="layui-form-item" id="che">
+            <label class="layui-form-label">笔试成绩
+            </label>
+            <div class="layui-input-block">
+                <input type="text" name="name" required lay-verify="required" placeholder="" autocomplete="off"
+                    class="layui-input" id="b">
+            </div>
+
+        </div>
+        <div class="layui-form-item" id="che">
+            <label class="layui-form-label">机式成绩
+            </label>
+            <div class="layui-input-block">
+                <input type="text" name="title" required lay-verify="required" placeholder="" autocomplete="off"
+                    class="layui-input" id="e">
+            </div>
+        </div>
+
+        <div class="layui-form-item" id="che">
+            <label class="layui-form-label">平均分
+            </label>
+            <div class="layui-input-block">
+                <input type="text" name="title" required lay-verify="required" placeholder="" autocomplete="off"
+                    class="layui-input" id="c1">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item" id="che">
+            <label class="layui-form-label">机式成绩
+            </label>
+            <div class="layui-input-block">
+                <input type="text" name="title" required lay-verify="required" placeholder="" autocomplete="off"
+                    class="layui-input" id="a1">
+            </div>
+        </div>
+
+        <div class="layui-form-item" id="che">
+            <label class="layui-form-label">笔试成绩
+            </label>
+            <div class="layui-input-block">
+                <input type="text" name="name" required lay-verify="required" placeholder="" autocomplete="off"
+                    class="layui-input" id="b2">
+            </div>
+
+        </div>
+        <div class="layui-form-item" id="che">
+            <label class="layui-form-label">机式成绩
+            </label>
+            <div class="layui-input-block">
+                <input type="text" name="title" required lay-verify="required" placeholder="" autocomplete="off"
+                    class="layui-input" id="e1">
+            </div>
+        </div>
+        <div class="layui-form-item" id="che">
+            <label class="layui-form-label">平均分</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" required lay-verify="required" placeholder="" autocomplete="off"
+                    class="layui-input" id="c3">
+            </div>
+        </div>
+        <div class="layui-form-item" id="che">
+            <label class="layui-form-label">教学周期平均分</label>
+            <div class="layui-input-block">
+                <input type="text" name="content" required lay-verify="required" placeholder="" autocomplete="off"
+                    class="layui-input" id="d">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo" id="add">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary" id="quxiao">取消</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+<!-- <form class="layui-form" action="">
+    <input type="checkbox" name="zzz" lay-skin="switch" lay-text="开启|关闭">
+    </form> -->
+
+
+<script>
+    let ArrarDate = [
+        {
+            name: '李泽',
+            data: '99',
+            data1: '100',
+            data2: '70',
+            data3: '92',
+            bishi: '28',
+            bishi1: '50',
+            pjf: '69',
+            pjf: '71',
+            zhouq: '73.6'
+        },
+        {
+            name: '李艳阳',
+            data: '45',
+            data1: '65',
+            data2: '65',
+            data3: '75',
+            bishi: '40',
+            bishi1: '60',
+            pjf: '65',
+            pjf: '75',
+            zhouq: '68'
+        }
+
+    ]
+    $(function () {
+        applyFun()
+    })
+    $('#addBtn').click(function () {
+        $('#da').fadeIn()
+        $('#span').html('添加学生')
+        $('#add').html('保存')
+    })
+    //批量删除
+    $('#shanBtn').click(function () {
+        let res = document.querySelectorAll('#tbo .xuan')
+        for (let i = 0; i < res.length; i++) {
+            if (res[i].checked == true) {
+                removeFun()
+            }
+        }
+    })
+    //搜索
+    $('#topSoiu').click(function () {
+        let arr = ArrarDate.filter((item) => {
+            return item.name.includes($('#sou').val())
+        })
+        applyFun(arr)
+    })
+    $('#c').click(function () {
+        $('#da').fadeOut()
+        $('#chekuang').val('')
+        $('#tup').val('')
+        $('#xinxi').val('')
+    })
+    $('#quxiao').click(function () {
+        $('#da').fadeOut()
+        $('#na').val(''),
+            $('#a').val(''),
+            $('#b').val(''),
+            $('#e').val(''),
+            $('#c1 ').val(''),
+            $('#a1').val('')
+        $('#b2').val(''),
+            $('#c3').val(''),
+            $('#e1').val(''),
+            $('#d').val('')
+    })
+    //全选反选
+    $('#btnxuan').click(function () {
+        let res = document.querySelectorAll('#tbo .xuan')
+        for (let i = 0; i < res.length; i++) {
+            res[i].checked == true ? res[i].checked = false : res[i].checked = true
+        }
+    })
+    //排序
+    var sor = 1
+    function sortFun() {
+        if (sor == 1) {
+            ArrarDate.sort((a, b) => a.sort - b.sort)
+            sor = 2
+        } else if (sor == 2) {
+            ArrarDate.sort((a, b) => b.sort - a.sort)
+            sor = 1
+        }
+        applyFun()
+    }
+    //
+    $('#cu').click(function () {
+        $('#daboix').fadeOut()
+
+    })
+    //添加//修改
+    let i = 0
+    $('#add').click(function () {
+        if (add.innerHTML == '保存') {
+            ArrarDate.push({
+                name: $('#na').val(),
+                data: $('#a').val(),
+                bishi: $('#b').val(),
+                data1: $('#e').val(),
+                pjf: $('#c1 ').val(),
+                data2: $('#b2').val(),
+                bishi1: $('#c3').val(),
+                data3: $('#e1').val(),
+                pjf: $('#c3').val(),
+                zhouq: $('#d').val()
+            })
+        } else {
+            ArrarDate[i] = ({
+                name: $('#na').val(),
+                data: $('#a').val(),
+                bishi: $('#b').val(),
+                data1: $('#e').val(),
+                pjf: $('#c1 ').val(),
+                data2: $('#b2').val(),
+                bishi1: $('#c3').val(),
+                data3: $('#e1').val(),
+                pjf: $('#c3').val(),
+                zhouq: $('#d').val()
+            })
+        }
+        $('#da').fadeOut()
+        applyFun()
+    })
+    //修改（回迁）
+    function gaiFun(index) {
+        i = index
+        $('#da').fadeIn()
+        $('#na').val(ArrarDate[index].name),
+            $('#a').val(ArrarDate[index].data),
+            $('#b').val(ArrarDate[index].bishi),
+            $('#e').val(ArrarDate[index].data1),
+            $('#c1 ').val(ArrarDate[index].pjf),
+            $('#a1').val(ArrarDate[index].data2)
+        $('#b2').val(ArrarDate[index].bishi1),
+            $('#c3').val(ArrarDate[index].pjf),
+            $('#e1').val(ArrarDate[index].data3),
+            $('#d').val(ArrarDate[index].zhouq)
+        $('#span').html('修改学生')
+        $('#add').html('确定')
+    }
+    //删除
+    function removeFun(index) {
+        if (confirm('你确认删除吗？')) {
+            ArrarDate.splice(index, 1)
+        }
+        applyFun()
+    }
+
+    //渲染
+    let aa
+    function applyFun(arr = ArrarDate) {
+        let html = ''
+        $(arr).each((index, item) => {
+            html += `
+        <tr>
+            <td><input type='checkbox' class='xuan'></td>
+        <td>${item.name}</td>
+        <td>${item.data}</td>
+        <td>${item.bishi}</td>
+        <td>${item.data1}</td>
+        <td>${item.pjf}</td>
+        <td>${item.data2}</td>
+        <td>${item.bishi1}</td>
+        <td>${item.data3}</td>
+        <td>${item.pjf}</td>
+        <td>${item.zhouq}</td>
+    <td><button class="layui-btn" onclick='gaiFun(${index})'>编辑</button>  <button class="layui-btn"  onclick='removeFun(${index})'>删除</button>  <button class="layui-btn" onclick='kanfun(${index})'>查看图表</button></td>
+      </tr>
+        `
+        })
+        $('#tbo').html(html)
+        let ta = $('#tbo td')
+        for (let i = 0; i < ta.length; i++) {
+            if ($(ta).eq(i).html() < 50) {
+                $(ta).eq(i).addClass('zit');
+            }
+            if ($(ta).eq(i).html() > 90) {
+                $(ta).eq(i).addClass('zis');
+            }
+        }
+
+
+    }
+
+    //查看图标
+    function kanfun(index) {
+        let Arrj = []
+        let Arrb = []
+        Arrj.push(ArrarDate[index].data, ArrarDate[index].data1, ArrarDate[index].data2, ArrarDate[index].data3)
+        Arrb.push(ArrarDate[index].bishi, '0', ArrarDate[index].bishi1, '0')
+        console.log(Arrj);
+        console.log(Arrb);
+        var chartDom = document.getElementById('dad');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            title: {
+                text: ArrarDate[index].name
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            legend: {},
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.1]
+            },
+            yAxis: {
+                type: 'category',
+                data: ['一月', '二月', '三月', '四月',]
+            },
+            series: [
+                {
+                    name: '机试',
+                    type: 'bar',
+                    data: Arrj
+                },
+                {
+                    name: '笔试',
+                    type: 'bar',
+                    data: Arrb
+                }
+            ]
+        };
+        option && myChart.setOption(option);
+
+        $('#daboix').fadeIn()
+    }
+</script>
+
+</html>
