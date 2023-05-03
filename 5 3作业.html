@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <!-- <script src="./1.js"></script> -->
+    <script src="https://www.makeapie.cn/dep/echarts/map/js/china.js"></script>
+  </head>
+  <body>
+    <div id="main" style="width: 800px; height: 400px"></div>
+    <script>
+      var chartDom = document.getElementById("main");
+      var myChart = echarts.init(chartDom);
+      var option;
+      const data = [];
+      for (let i = 0; i < 6; ++i) {
+        data.push(Math.round(Math.random() * 200));
+      }
+      option = {
+        xAxis: {
+          max: "dataMax",
+        },
+        yAxis: {
+          type: "category",
+          data: ["1", "2", "3","4", "5",'6'],
+          inverse: true,
+          animationDuration: 300,
+          animationDurationUpdate: 300,
+          max: 5, // only the largest 3 bars will be displayed
+        },
+        series: [
+          {
+            realtimeSort: true,
+            name: "X",
+            type: "bar",
+            data: ['0','0','0','0','0','0'],
+            label: {
+              show: true,
+              position: "right",
+              valueAnimation: true,
+            },
+          },
+        ],
+        legend: {
+          show: true,
+        },
+        animationDuration: 0,
+        animationDurationUpdate: 3000,
+        animationEasing: "linear",
+        animationEasingUpdate: "linear",
+      };
+      function run() {
+        for (var i = 0; i < data.length; ++i) {
+          if (Math.random() > 0.9) {
+            data[i] += Math.round(Math.random() * 2000);
+          } else {
+            data[i] += Math.round(Math.random() * 200);
+          }
+        }
+        myChart.setOption({
+          series: [
+            {
+              type: "bar",
+              data,
+            },
+          ],
+        });
+      }
+      setTimeout(function () {
+        run();
+      }, 0);
+      setInterval(function () {
+        run();
+      }, 1000);
+
+      option && myChart.setOption(option);
+    </script>
+  </body>
+</html>
