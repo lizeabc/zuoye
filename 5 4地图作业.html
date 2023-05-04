@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>服务健康状态 | 高德开放平台</title>
+    <link rel="stylesheet" href="./index.css" />
+    <style></style>
+  </head>
+  <body>
+    <div id="box">
+      <header>
+        <div class="logo">
+          <a href="//lbs.amap.com"></a>
+        </div>
+      </header>
+      <div class="wrapper">
+        <a href="#">服务健康状态</a>
+        <a href="#">链路健康状态</a>
+      </div>
+      <div class="main">
+        <div class="network">
+          <div class="status_list">
+            <div class="status-tip open">
+              链路耗时代表了各运营商网络到高德机房的网络耗时情况。高德对链路健康状态进行了抽样监控，以下数据仅供参考。
+              <span class="close"></span>
+            </div>
+            <div class="status-item">
+              <span class="status_circle">
+                <span class="scan"></span>
+                <span class="core"></span>
+              </span>
+              <p>监测点</p>
+            </div>
+            <div class="fast status-item">
+              <span class="status_circle">
+                <span class="scan"></span>
+              </span>
+              <p>
+                <span class="max_min">最快</span>
+              </p>
+            </div>
+            <div class="slow status-item">
+              <span class="status_circle">
+                <span class="scan"></span>
+              </span>
+              <p>
+                <span class="max_min">最慢</span>
+              </p>
+            </div>
+            <div class="avg status-item">
+              <span class="status_circle">
+                <span class="scan"></span>
+              </span>
+              <p>平均</p>
+            </div>
+          </div>
+          <div class="map">
+            <div id="container" tabindex="0" class="chart_china hoving"></div>
+            <ul class="map_info">
+              <li><20ms</li>
+              <li>20-50ms</li>
+              <li>50-70ms</li>
+              <li>70-100ms</li>
+              <li>>100ms</li>
+            </ul>
+          </div>
+        </div>
+        <table class="list">
+          <tr class="tr_heaad">
+            <th>监测点</th>
+            <th>监测点IP</th>
+            <th>链路耗时</th>
+            <th>检测时间</th>
+          </tr>
+        </table>
+        <a href="#" class="data_toggle show">查看所有监测点数据</a>
+        <div class="refresh_info">
+          我们每隔一段时间会去检测链路健康状态是否正常，您可以从本页面获取这些信息
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    window._AMapSecurityConfig = {
+      securityJsCode: 'f1735c03c84e2477a308697953bc3004',
+    }
+  </script>
+  <script
+    language="javascript"
+    src="https://webapi.amap.com/maps?v=2.0&key=0cbc93212f1f501e460afe158ba8aac1&plugin=AMap.Scale,AMap.ToolBar"
+  ></script>
+  <script
+    type="text/javascript"
+    src="https://a.amap.com/jsapi_demos/static/demo-center/data/china-pp.js"
+  ></script>
+  <script type="text/javascript">
+    var SOC = 'CHN'
+    var colors = {}
+    var GDPSpeed = {
+      520000: 10, //贵州
+      540000: 10, //西藏
+      530000: 8.5, //云南
+      500000: 8.5, //重庆
+      360000: 8.5, //江西
+      340000: 8.0, //安徽
+      510000: 7.5, //四川
+      350000: 8.5, //福建
+      430000: 8.0, //湖南
+      420000: 7.5, //湖北
+      410000: 7.5, //河南
+      330000: 7.0, //浙江
+      640000: 7.5, //宁夏
+      650000: 7.0, //新疆
+      440000: 7.0, //广东
+      370000: 7.0, //山东
+      450000: 7.3, //广西
+      630000: 7.0, //青海
+      320000: 7.0, //江苏
+      140000: 6.5, //山西
+      460000: 7, // 海南
+      310000: 6.5, //上海
+      110000: 6.5, // 北京
+      130000: 6.5, // 河北
+      230000: 6, // 黑龙江
+      220000: 6, // 吉林
+      210000: 6.5, //辽宁
+      150000: 6.5, //内蒙古
+      120000: 5, // 天津
+      620000: 6, // 甘肃
+      610000: 8.5, // 甘肃
+      710000: 2.64, //台湾
+      810000: 3.0, //香港
+      820000: 4.7, //澳门
+    }
+    var getColorByDGP = function (adcode) {
+      if (!colors[adcode]) {
+        var gdp = GDPSpeed[adcode]
+        if (!gdp) {
+          colors[adcode] = 'rgb(227,227,227)'
+        } else {
+          var r = 3
+          var g = 140
+          var b = 230
+          var a = gdp / 10
+          colors[adcode] = 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')'
+        }
+      }
+      return colors[adcode]
+    }
+
+    var disCountry = new AMap.DistrictLayer.Country({
+      zIndex: 10,
+      SOC: 'CHN',
+      depth: 1,
+      styles: {
+        'nation-stroke': '#ff0000',
+        'coastline-stroke': '#0088ff',
+        'province-stroke': 'grey',
+        fill: function (props) {
+          return getColorByDGP(props.adcode_pro)
+        },
+      },
+    })
+    var map = new AMap.Map('container', {
+      zooms: [4, 8],
+      center: [106.122082, 33.719192],
+      zoom: 1,
+      isHotspot: true,
+      defaultCursor: 'pointer',
+      layers: [disCountry],
+      viewMode: '3D',
+    })
+    map.addControl(new AMap.Scale())
+    map.addControl(new AMap.ToolBar({ liteStyle: true }))
+    map.on('complete', function () {
+      var layer = new AMap.LabelsLayer({
+        // 开启标注避让，默认为开启，v1.4.15 新增属性
+        collision: false,
+        // 开启标注淡入动画，默认为开启，v1.4.15 新增属性
+        animation: true,
+      })
+      for (var i = 0; i < LabelsData.length; i++) {
+        var labelsMarker = new AMap.LabelMarker(LabelsData[i])
+        layer.add(labelsMarker)
+      }
+      map.add(layer)
+    })
+  </script>
+</html>

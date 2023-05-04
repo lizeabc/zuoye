@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container {
+            width: 600px;
+            height: 500px;
+        }
+    </style>
+</head>
+<div id="container"></div>
+<button onclick="fun()">显示路况图层</button>
+<button onclick="fun1()">隐藏路况图层</button>
+
+<body>
+    <script
+        src="https://webapi.amap.com/maps?v=2.0&key=0cbc93212f1f501e460afe158ba8aac1&plugin=AMap.ToolBar,AMap.Driving"></script>
+    <script>
+        window._AMapSecurityConfig = {
+            securityJsCode: "f1735c03c84e2477a308697953bc3004",
+        }
+        const map = new AMap.Map('container', {
+            viewMode: '2D',  // 默认使用 2D 模式
+            zoom: 11,  //初始化地图层级
+            center: [116.397428, 39.90923]  //初始化地图中心点
+        });
+        const layer = new AMap.createDefaultLayer({ // 提示：参数值并不是API默认使用的值
+            zooms: [3, 20],    //可见级别
+            visible: true,    //是否可见
+            opacity: 1,       //透明度
+            zIndex: 0         //叠加层级
+        })
+        const traffic = new AMap.TileLayer.Traffic({
+            'autoRefresh': true,     //是否自动刷新，默认为false
+            'interval': 180,         //刷新间隔，默认180s
+        });
+        let toolbar;
+        AMap.plugin('AMap.ToolBar', function () { // 异步加载插件
+            toolbar = new AMap.ToolBar(); // 缩放工具条实例化
+            map.addControl(toolbar);
+        });
+        AMap.plugin([
+    'AMap.ToolBar',
+    'AMap.Scale',
+    'AMap.HawkEye',
+    'AMap.MapType',
+    'AMap.Geolocation',
+], function(){
+    // 在图面添加工具条控件，工具条控件集成了缩放、平移、定位等功能按钮在内的组合控件
+    map.addControl(new AMap.ToolBar());
+
+    // 在图面添加比例尺控件，展示地图在当前层级和纬度下的比例尺
+    map.addControl(new AMap.Scale());
+
+    // 在图面添加鹰眼控件，在地图右下角显示地图的缩略图
+    map.addControl(new AMap.HawkEye({isOpen:true}));
+   
+    // 在图面添加类别切换控件，实现默认图层与卫星图、实施交通图层之间切换的控制
+    map.addControl(new AMap.MapType());
+   
+    // 在图面添加定位控件，用来获取和展示用户主机所在的经纬度位置
+    map.addControl(new AMap.Geolocation());
+});
+        map.add(traffic); //通过add方法添加图层
+        function fun() {
+            traffic.show(); //显示路况图层
+
+        }
+        function fun1() {
+            traffic.hide(); //隐藏路况图层
+
+        }
+    </script>
+</body>
+
+</html>

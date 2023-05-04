@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>导航</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"
+    />
+    <style>
+      * {
+        margin: 0 auto;
+        padding: 0;
+      }
+      #box {
+        width: 1200px;
+        height: 400px;
+        position: absolute;
+        top: 20px;
+        left: 320px;
+      }
+      #panel {
+        position: fixed;
+        background-color: white;
+        max-height: 90%;
+        overflow-y: auto;
+        top: 10px;
+        right: 10px;
+        width: 280px;
+      }
+      #panel .amap-call {
+        background-color: #009cf9;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+      }
+      #panel .amap-lib-driving { 
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        overflow: hidden;
+      }
+      button {
+        width: 80px;
+        height: 40px;
+        margin-top: 10px;
+        background-color: gray;
+        cursor: pointer;
+      }
+      #bos {
+        width: 310px;
+        height: 430px;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+      }
+  #bos input{
+    width: 300px;
+    height: 50px;
+  }
+      span {
+        position: relative;
+        top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="bos">
+      <span>出发点:</span><input type="text" id="cfd" /><br />
+      <span>目的地:</span><input type="text" id="mdd" />
+      <button  onclick="fun3()">自定义路线</button>
+      <button onclick="fun2()" >固定路线</button>
+      <button onclick="fun()">返回</button>
+    </div>
+    <div id="box"></div>
+    <div id="panel"></div>
+  </body>
+  <script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
+  <script
+    type="text/javascript"
+    src="https://cache.amap.com/lbs/static/addToolbar.js"
+  ></script>
+  <script type="text/javascript">
+    window._AMapSecurityConfig = {
+      securityJsCode: '82a7f20c831d47365b8fcf9fad07e90f',
+    }
+  </script>
+
+  <script>
+    let jcfd = 115.495083
+    let wcfd = 35.236180
+    let jmdd = 113.428155
+    let wmdd = 34.774258
+
+    $(function () {
+      let map = null
+      fun()
+    })
+
+    function fun() {
+      if (navigator.geolocation) {
+        map = new AMap.Map('box', {
+          zoom: 16,
+          center: [113.428155, 34.774258],
+          viewMode: '3D',
+        })
+        //吾悦广场标记
+        var marker = new AMap.Marker({
+          position: map.getCenter(),
+          icon: '//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
+          anchor: 'bottom-center',
+          offset: new AMap.Pixel(0, 0),
+        })
+        marker.setMap(map)
+        marker.setTitle('吾悦广场')
+        marker.setLabel({
+          direction: 'right',
+          offset: new AMap.Pixel(10, 0), //设置文本标注偏移量
+          content:
+            "<div class='info' style='width:100px;text-align:right;min-width:0'>我是吾悦广场</div>", //设置文本标注内容
+        })
+      }
+    }
+  </script>
+  <script
+    type="text/javascript"
+    src="https://webapi.amap.com/maps?v=2.0&key=a653020510c4a20baf0acc3f377ca920&plugin=AMap.Geocoder"
+  ></script>
+  <script>
+    var geocoder = new AMap.Geocoder({
+      //   city: '010', //城市设为北京，默认：“全国”
+    })
+    function fun3() {
+      if ($('#cfd').val() && $('#mdd').val()) {
+        fun()
+        let cfd = $('#cfd').val()
+        let mdd = $('#mdd').val()
+        geocoder.getLocation(cfd, function (status, result) {
+          if (status === 'complete' && result.geocodes.length) {
+            let lnglat = result.geocodes[0].location
+            jcfd = lnglat.lng
+            wcfd = lnglat.lat
+          } else {
+            log.error('根据地址查询位置失败')
+          }
+        })
+        geocoder.getLocation(mdd, function (status, result) {
+          if (status === 'complete' && result.geocodes.length) {
+            let lnglat = result.geocodes[0].location
+            jmdd = lnglat.lng
+            wmdd = lnglat.lat
+            fun2()
+          } else {
+            log.error('根据地址查询位置失败')
+          }
+        })
+      } else {
+        alert('请输入出发点和目的地')
+      }
+    }
+  </script>
+  <script
+    type="text/javascript"
+    src="https://webapi.amap.com/maps?v=2.0&key=a653020510c4a20baf0acc3f377ca920&plugin=AMap.Driving"
+  ></script>
+  
+  <script>
+    function fun2() {
+      fun()
+      //构造路线导航类
+      var driving = new AMap.Driving({
+        map: map,
+        panel: 'panel',
+      })
+      driving.search(
+        new AMap.LngLat(jcfd, wcfd),
+        new AMap.LngLat(jmdd, wmdd),
+        function (status, result) {
+          // result 即是对应的驾车导航信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_DrivingResult
+          if (status === 'complete') {
+            log.success('绘制驾车路线完成')
+            jcfd = 115.495083
+            wcfd = 35.236180
+            jmdd = 113.428155
+            wmdd = 34.774258
+          } else {
+            log.error('获取驾车数据失败：' + result)
+          }
+        }
+      )
+    }
+  </script>
+</html>
