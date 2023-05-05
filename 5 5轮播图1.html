@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Swiper demo</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
+    />
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/5.4.5/css/swiper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/5.4.5/js/swiper.js"></script>
+    <script src="./jquery-3.6.1.js"></script>
+
+    <!-- Demo styles -->
+    <style>
+
+      body {
+        background: #eee;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color: #000;
+        margin: 0;
+        padding: 0;
+      }
+
+      .swiper {
+       width: 600px;
+       height: 250px;
+       text-align: center;
+       
+      }
+
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        position: relative;
+        left: -185px;
+        top: 220px;
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+
+      .swiper-slide img {
+        display: block;
+
+        object-fit: cover;
+      }
+      #img{
+        width: 128px;
+        margin-left: px;
+        margin-top: -48px;
+        height: 200px;
+      }
+      #p{
+        width: 128px;
+     position: absolute;
+     left: -5px;
+     top: 185px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Swiper -->
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <img id="img" src="https://files.codelife.cc/itab/movieCalendar/p-202303231789283.webp?x-oss-process=image/resize,limit_0,m_fill,w_273,h_405/quality,q_80/format,webp" alt="">
+            <p id="p">速度过于激情</p>
+        </div>
+        <div class="swiper-slide">    <img id="img" src="https://files.codelife.cc/itab/movieCalendar/p-202303231789283.webp?x-oss-process=image/resize,limit_0,m_fill,w_273,h_405/quality,q_80/format,webp" alt="">
+            <p id="p">速度过于激情</p></div>
+        <div class="swiper-slide">    <img id="img" src="https://files.codelife.cc/itab/movieCalendar/p-202303231789283.webp?x-oss-process=image/resize,limit_0,m_fill,w_273,h_405/quality,q_80/format,webp" alt="">
+            <p id="p">速度过于激情</p></div>
+        <div class="swiper-slide">    <img id="img" src="https://files.codelife.cc/itab/movieCalendar/p-202303231789283.webp?x-oss-process=image/resize,limit_0,m_fill,w_273,h_405/quality,q_80/format,webp" alt="">
+            <p id="p">速度过于激情</p></div>
+        <div class="swiper-slide">    <img id="img" src="https://files.codelife.cc/itab/movieCalendar/p-202303231789283.webp?x-oss-process=image/resize,limit_0,m_fill,w_273,h_405/quality,q_80/format,webp" alt="">
+            <p id="p">速度过于激情</p></div>
+        <div class="swiper-slide">    <img id="img" src="https://files.codelife.cc/itab/movieCalendar/p-202303231789283.webp?x-oss-process=image/resize,limit_0,m_fill,w_273,h_405/quality,q_80/format,webp" alt="">
+            <p id="p">速度过于激情</p></div>
+        <div class="swiper-slide">    <img id="img" src="https://files.codelife.cc/itab/movieCalendar/p-202303231789283.webp?x-oss-process=image/resize,limit_0,m_fill,w_273,h_405/quality,q_80/format,webp" alt="">
+            <p id="p">速度过于激情</p></div>
+        <div class="swiper-slide">    <img id="img" src="https://files.codelife.cc/itab/movieCalendar/p-202303231789283.webp?x-oss-process=image/resize,limit_0,m_fill,w_273,h_405/quality,q_80/format,webp" alt="">
+            <p id="p">速度过于激情</p></div>
+        <div class="swiper-slide">    <img id="img" src="https://files.codelife.cc/itab/movieCalendar/p-202303231789283.webp?x-oss-process=image/resize,limit_0,m_fill,w_273,h_405/quality,q_80/format,webp" alt="">
+            <p id="p">速度过于激情</p></div>
+      </div>
+    </div>
+
+    <!-- Swiper JS -->
+
+    <!-- Initialize Swiper -->
+    <script>
+      var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 4,
+        centeredSlides: true,
+        spaceBetween: 30,
+        grabCursor: true,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+      });
+    </script>
+  </body>
+</html>
