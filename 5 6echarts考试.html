@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.2/echarts.min.js"></script>
+    <!-- 引入 layui.css -->
+    <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+
+    <!-- 引入 layui.js -->
+    <script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
+    <script src="./jquery-3.6.1.js"></script>
+</head>
+<style>
+    #box {
+        position: absolute;
+        left: 600px;
+        top: 70px;
+        width: 860px;
+        height: 700px;
+    }
+    #buttonbox{
+        position: absolute;
+        left: 1000px;
+        top: 30px;
+    }
+    #box1{
+        width: 200px;
+        height: 150px;
+        background-color: rgb(248, 249, 254);
+        position: absolute;
+        left: 100px;
+        top: 170px;
+        border-radius: 30px;
+        text-align: center;
+    }
+    #zl{
+        position: relative;
+        top: 30px;
+        left: -10px;
+    }
+    #box2{
+        width: 200px;
+        height: 150px;
+        background-color: rgb(248, 249, 254);
+        position: absolute;
+        left: 100px;
+        top: 340px;
+        border-radius: 30px;
+        text-align: center;
+    }
+    #zl2{
+        position: relative;
+        top: 30px;
+        left: -10px;
+    }
+</style>
+
+<body>
+    <div id="buttonbox">
+        <button class="layui-btn layui-btn-radius layui-btn-normal" onclick="jrfun()">今日</button>
+        <button class="layui-btn layui-btn-radius layui-btn-normal" onclick="zrfun()">昨日</button>
+        <button class="layui-btn layui-btn-radius layui-btn-normal" onclick="qrfun()">近7天</button>
+        <button class="layui-btn layui-btn-radius layui-btn-normal" onclick="yefun()">近一个月</button>
+    </div>
+<div id="box1">
+<h2 id="p1">PV(总量浏览)</h2>
+<h2 id="zl">21</h2>
+</div>
+<div id="box2">
+    <h2 id="p1">UV(总量浏览)</h2>
+    <h2 id="zl2">0</h2>
+    </div>
+    <div id="box"></div>
+    <script>
+        $(function () {
+            fun([100,260,98,23,78,66,88,77,88,145,180,98])
+        })
+        var chartDom = document.getElementById('box');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+
+        function jrfun() {
+            $('#zl').html('14')
+            $('#zl2').html(
+                '0'
+            )
+            fun([100,260,98,23,78,66,88,77,88,145,180,98],[0,0,0,0,0,0,0,0,0,0,0,0,0,],['0.00','2.00','4.00','6.00','8.00','10.00','12.00'])
+        }
+        function zrfun(){
+            $('#zl').html('38')
+            $('#zl2').html(
+                '0'
+            )
+        fun([10,20,81,23,100,66,88,77,88,14,18,9],[0,0,0,0,0,0,0,0,0,0,0,0,0,],['0.00','2.00','4.00','6.00','8.00','10.00','12.00'])
+        }
+        function qrfun(){
+            $('#zl').html('245')
+            $('#zl2').html(
+                '123'
+            )
+            fun([10,20,81,23,100,66,88,77,88,14,18,9],[10,20,11,30,30,50,10,22,25,18,18,19],['7天','6天','5天','4天','3天','2天','1天'])
+        }
+        function yefun(){
+            $('#zl').html('2124')
+            $('#zl2').html(
+                '523'
+            )
+            fun([185,150,180,200,120,110,99,98,21,10,40],[100,173,170,100,200,130,120,180,190,140,140,100],['2323-4-29','2323-4-30','2323-5-1','2323-5-2','2323-5-3','22323-5-4','2323-5-5'])
+        }
+        function fun(jr, zr,yy) {
+            const colors = ['#5470C6', '#EE6666'];
+            option = {
+                color: colors,
+                tooltip: {
+                    trigger: 'none',
+                    axisPointer: {
+                        type: 'cross'
+                    }
+                },
+                legend: {},
+                grid: {
+                    top: 70,
+                    bottom: 50
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        axisTick: {
+                            alignWithLabel: true
+                        },
+                        axisLine: {
+                            onZero: false,
+                            lineStyle: {
+                                color: colors[1]
+                            }
+                        },
+                        axisPointer: {
+                            label: {
+                                formatter: function (params) {
+                                    return (
+                                        'pv  ' +
+                                        params.value +
+                                        (params.seriesData.length ? '：' + params.seriesData[0].data : '')
+                                    );
+                                }
+                            }
+                        },
+                        // prettier-ignore
+                        data: yy
+                    },
+                    {
+                        type: 'category',
+                        axisTick: {
+                            alignWithLabel: true
+                        },
+                        axisLine: {
+                            onZero: false,
+                            lineStyle: {
+                                color: colors[0]
+                            }
+                        },
+                        axisPointer: {
+                            label: {
+                                formatter: function (params) {
+                                    return (
+                                        'uv ' +
+                                        params.value +
+                                        (params.seriesData.length ? ':' + params.seriesData[0].data : '')
+                                    );
+                                }
+                            }
+                        },
+                        // prettier-ignore
+                        data: yy
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    {
+                        name: 'pv',
+                        type: 'line',
+                        xAxisIndex: 1,
+                        smooth: true,
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: jr
+                    },
+                    {
+                        name: 'uv',
+                        type: 'line',
+                        smooth: true,
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: zr
+                    }
+                ]
+            };
+
+            option && myChart.setOption(option);
+        }
+    </script>
+</body>
+
+</html>

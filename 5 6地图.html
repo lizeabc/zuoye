@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>导航</title>
+  <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.min.js"></script>
+  <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+  <style>
+    * {
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    #box {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 60px;
+      left: 0px;
+    }
+
+    #panel {
+      position: fixed;
+      background-color: white;
+      max-height: 90%;
+      overflow-y: auto;
+      top: 10px;
+      right: 10px;
+      width: 280px;
+    }
+
+    #panel .amap-call {
+      background-color: #009cf9;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+    }
+
+    #panel .amap-lib-driving {
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      overflow: hidden;
+    }
+
+    button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+
+      position: relative;
+      left: 700px;
+    }
+
+    span {
+      position: relative;
+      top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="bos">
+    <button onclick="fun2()" id="gd">固定路线</button>
+  </div>
+  <div id="box"></div>
+  <div id="panel"></div>
+</body>
+<script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
+<script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+<script type="text/javascript">
+  window._AMapSecurityConfig = {
+    securityJsCode: 'f1735c03c84e2477a308697953bc3004',
+  }
+</script>
+<script type="text/javascript"
+  src="https://webapi.amap.com/maps?v=2.0&key=0cbc93212f1f501e460afe158ba8aac1&plugin=AMap.Driving"></script>
+<script>
+  $(function () {
+    fun()
+  })
+  function fun() {
+    if (navigator.geolocation) {
+      map = new AMap.Map('box', {
+        zoom: 18,
+        center: [113.428171, 34.765316],
+        viewMode: '3D',
+      })
+    }
+  }
+
+  function fun2() {
+    fun()
+    //构造路线导航类
+    var driving = new AMap.Driving({
+      map: map,
+      panel: 'panel',
+    })
+    driving.search(
+      //起点
+      new AMap.LngLat(113.427341, 34.766071),
+      //终点  
+      new AMap.LngLat(115.486266, 35.22513),
+      function (status, result) {
+        // result 即是对应的驾车导航信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_DrivingResult
+        if (status === 'complete') {
+          log.success('绘制驾车路线完成')
+
+        } else {
+          log.error('获取驾车数据失败：' + result)
+        }
+      }
+    )
+  }
+
+
+
+</script>
+
+</html>
